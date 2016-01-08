@@ -94,6 +94,7 @@ struct crypto_ahash {
 		      unsigned int keylen);
 
 	unsigned int reqsize;
+	bool has_setkey;
 	struct crypto_tfm base;
 };
 
@@ -181,6 +182,24 @@ static inline void *ahash_request_ctx(struct ahash_request *req)
 
 int crypto_ahash_setkey(struct crypto_ahash *tfm, const u8 *key,
 			unsigned int keylen);
+
+static inline bool crypto_ahash_has_setkey(struct crypto_ahash *tfm)
+{
+	return tfm->has_setkey;
+}
+
+/**
+ * crypto_ahash_finup() - update and finalize message digest
+ * @req: reference to the ahash_request handle that holds all information
+ *	 needed to perform the cipher operation
+ *
+ * This function is a "short-hand" for the function calls of
+ * crypto_ahash_update and crypto_shash_final. The parameters have the same
+ * meaning as discussed for those separate functions.
+ *
+ * Return: 0 if the message digest creation was successful; < 0 if an error
+ *	   occurred
+ */
 int crypto_ahash_finup(struct ahash_request *req);
 int crypto_ahash_final(struct ahash_request *req);
 int crypto_ahash_digest(struct ahash_request *req);

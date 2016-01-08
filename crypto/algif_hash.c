@@ -39,8 +39,8 @@ struct algif_hash_tfm {
 	bool has_key;
 };
 
-static int hash_sendmsg(struct kiocb *unused, struct socket *sock,
-			struct msghdr *msg, size_t ignored)
+static int hash_sendmsg(struct socket *sock, struct msghdr *msg,
+			size_t ignored)
 {
 	int limit = ALG_MAX_PAGES * PAGE_SIZE;
 	struct sock *sk = sock->sk;
@@ -288,8 +288,8 @@ unlock:
 	return err;
 }
 
-static int hash_sendmsg_nokey(struct kiocb *unused, struct socket *sock,
-			      struct msghdr *msg, size_t size)
+static int hash_sendmsg_nokey(struct socket *sock, struct msghdr *msg,
+			      size_t size)
 {
 	int err;
 
@@ -297,7 +297,7 @@ static int hash_sendmsg_nokey(struct kiocb *unused, struct socket *sock,
 	if (err)
 		return err;
 
-	return hash_sendmsg(unused, sock, msg, size);
+	return hash_sendmsg(sock, msg, size);
 }
 
 static ssize_t hash_sendpage_nokey(struct socket *sock, struct page *page,
@@ -312,8 +312,8 @@ static ssize_t hash_sendpage_nokey(struct socket *sock, struct page *page,
 	return hash_sendpage(sock, page, offset, size, flags);
 }
 
-static int hash_recvmsg_nokey(struct kiocb *unused, struct socket *sock,
-			      struct msghdr *msg, size_t ignored, int flags)
+static int hash_recvmsg_nokey(struct socket *sock, struct msghdr *msg,
+			      size_t ignored, int flags)
 {
 	int err;
 
@@ -321,7 +321,7 @@ static int hash_recvmsg_nokey(struct kiocb *unused, struct socket *sock,
 	if (err)
 		return err;
 
-	return hash_recvmsg(unused, sock, msg, ignored, flags);
+	return hash_recvmsg(sock, msg, ignored, flags);
 }
 
 static int hash_accept_nokey(struct socket *sock, struct socket *newsock,

@@ -1,0 +1,21 @@
+service supolicy /su/bin/supolicy --live \
+	"allow ssr device dir read" \
+	"allow init kernel security read_policy" \
+	"allow zygote init unix_stream_socket { read write }" \
+	"allow shell dalvikcache_data_file file write" \
+	"allow mediaserver mediaserver_tmpfs file execute" \
+	"allow shell dalvikcache_data_file dir write" \
+	"allow isolated_app app_data_file file ioctl" \
+	"allow isolated_app untrusted_app unix_stream_socket ioctl"
+     disabled
+     oneshot
+
+service kernvatore-post-boot /sbin/kernvatore-post-boot.sh
+     class late_start
+     user root
+     disabled
+     oneshot
+
+on property:supolicy.loaded=1
+     start supolicy
+     start kernvatore-post-boot

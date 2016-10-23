@@ -31,8 +31,8 @@ persist.radio.snapshot_timer=2
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
-ro.bootimage.build.date=Thu Sep 8 01:31:35 UTC 2016
-ro.bootimage.build.date.utc=1473298295
-ro.bootimage.build.fingerprint=google/angler/angler:7.0/NBD90X/3254009:user/release-keys
+ro.bootimage.build.date=Thu Oct 13 01:43:27 UTC 2016
+ro.bootimage.build.date.utc=1476323007
+ro.bootimage.build.fingerprint=google/angler/angler:7.1.1/NPF10C/3347772:user/release-keys
 persist.sys.usb.config=none
 

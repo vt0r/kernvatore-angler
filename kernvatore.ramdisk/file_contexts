@@ -380,6 +380,7 @@
 /dev/msm_audio_cal	u:object_r:audio_device:s0
 /dev/nanohub_comms	u:object_r:sensors_device:s0
 /dev/block/mmcblk0	u:object_r:root_block_device:s0
+/system/bin/sysinit	u:object_r:sysinit_exec:s0
 /vendor/bin/netmgrd	u:object_r:netmgrd_exec:s0
 /vendor/bin/pm-proxy	u:object_r:per_proxy_exec:s0
 /vendor/bin/qseecomd	u:object_r:tee_exec:s0

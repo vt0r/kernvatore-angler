@@ -42,5 +42,4 @@ SFILE="/sys/module/bcmdhd/parameters/wl_divide"
 # power_efficient workqueue control
 CFILE="/data/data/leankernel/power_efficient"
 SFILE="/sys/module/workqueue/parameters/power_efficient"
-echo 1 > $SFILE
 [ -f $CFILE ] && echo `cat $CFILE` > $SFILE

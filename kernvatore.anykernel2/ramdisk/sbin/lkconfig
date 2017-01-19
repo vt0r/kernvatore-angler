@@ -67,7 +67,7 @@ case $option in
   ;;
 
 2)
-  echo -n "wakelocks: enter 1 to 8 (1 = default, higher = lower wake time) for wlan_rx: "
+  echo -n "wakelocks: enter 1 to 8 (1 = stock default, 4 = kernvatore default, higher = lower wake time) for wlan_rx: "
   read wval
   case $wval in
     1)

@@ -155,10 +155,11 @@ case $option in
   0)
     echo 0 > /sys/module/workqueue/parameters/power_efficient
     echo 0 > $lkdata/power_efficient
+    mc=1
   ;;
   1)
     echo 1 > /sys/module/workqueue/parameters/power_efficient
-    echo 1 > $lkdata/power_efficient
+    rm -f $lkdata/power_efficient
   ;;
   *) mc=0;;
   esac

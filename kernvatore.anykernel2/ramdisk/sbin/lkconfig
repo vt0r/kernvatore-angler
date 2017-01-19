@@ -18,6 +18,7 @@ echo "1) wake gesture control"
 echo "2) wakelock control"
 echo "3) rgb/picture control"
 echo "4) interactiveX control"
+echo "5) power_efficient wqueue control"
 echo
 echo "21) check top 10 wake locks (ie. wakeup sources)"
 echo "22) memory cleanup and hotboot"
@@ -28,148 +29,167 @@ echo
 
 case $option in
 0)
-	echo
-	echo "current settings"
-	echo "----------------"
-	echo -n "1) wake gestures, stock dt2w: "
-	cat /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
-	echo -n "2) wlan_rx wakelock divider: "
-	cat /sys/module/bcmdhd/parameters/wl_divide
-	echo "3) rgb/picture settings: "
-	rgb=`cat /sys/devices/platform/kcal_ctrl.0/kcal`
-	sat=`cat /sys/devices/platform/kcal_ctrl.0/kcal_sat`
-	cont=`cat /sys/devices/platform/kcal_ctrl.0/kcal_cont`
-	hue=`cat /sys/devices/platform/kcal_ctrl.0/kcal_hue`
-	gamma=`cat /sys/devices/platform/kcal_ctrl.0/kcal_val`
-	echo "   rgb: $rgb, sat: $sat, cont: $cont, hue: $hue, gamma: $gamma"
-	echo -n "4) interactiveX screenoff max: "
-	cat /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq
-	;;
+  echo
+  echo "current settings"
+  echo "----------------"
+  echo -n "1) wake gestures, stock dt2w: "
+  cat /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
+  echo -n "2) wlan_rx wakelock divider: "
+  cat /sys/module/bcmdhd/parameters/wl_divide
+  echo "3) rgb/picture settings: "
+  rgb=`cat /sys/devices/platform/kcal_ctrl.0/kcal`
+  sat=`cat /sys/devices/platform/kcal_ctrl.0/kcal_sat`
+  cont=`cat /sys/devices/platform/kcal_ctrl.0/kcal_cont`
+  hue=`cat /sys/devices/platform/kcal_ctrl.0/kcal_hue`
+  gamma=`cat /sys/devices/platform/kcal_ctrl.0/kcal_val`
+  echo "   rgb: $rgb, sat: $sat, cont: $cont, hue: $hue, gamma: $gamma"
+  echo -n "4) interactiveX screenoff max: "
+  cat /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq
+  echo -n "5) power_efficient wqueue enabled: "
+  cat /sys/module/workqueue/parameters/power_efficient
+  ;;
 
 1)
-	echo -n "dt2w: enter 0 to disable (default), 1 to enable: "
-	read value
-	case $value in
-	  0)
-		echo 0 > /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
-		rm -f $lkdata/wake_gesture
-		;;
-	  1)
-		echo 1 > /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
-		echo 1 > $lkdata/wake_gesture
-		;;
-	  *) mc=0;;
-	esac
-	[ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
-	;;
+  echo -n "dt2w: enter 0 to disable (default), 1 to enable: "
+  read value
+  case $value in
+    0)
+    echo 0 > /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
+    rm -f $lkdata/wake_gesture
+    ;;
+    1)
+    echo 1 > /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture
+    echo 1 > $lkdata/wake_gesture
+    ;;
+    *) mc=0;;
+  esac
+  [ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
+  ;;
 
 2)
-	echo -n "wakelocks: enter 1 to 8 (1 = default, higher = lower wake time) for wlan_rx: "
-	read wval
-	case $wval in
-		1)
-		rm -f $lkdata/wlan_rx
-		echo $wval > /sys/module/bcmdhd/parameters/wl_divide
-		;;
-		[2-8])
-		echo $wval > $lkdata/wlan_rx
-		echo $wval > /sys/module/bcmdhd/parameters/wl_divide
-		;;
-		*)
-		if [ $wval -gt 8 ]; then
-			echo $wval > $lkdata/wlan_rx
-			echo $wval > /sys/module/bcmdhd/parameters/wl_divide
-		else mc=0
-		fi
-		;;
-	esac
-	[ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
-	;;
+  echo -n "wakelocks: enter 1 to 8 (1 = default, higher = lower wake time) for wlan_rx: "
+  read wval
+  case $wval in
+    1)
+    rm -f $lkdata/wlan_rx
+    echo $wval > /sys/module/bcmdhd/parameters/wl_divide
+    ;;
+    [2-8])
+    echo $wval > $lkdata/wlan_rx
+    echo $wval > /sys/module/bcmdhd/parameters/wl_divide
+    ;;
+    *)
+    if [ $wval -gt 8 ]; then
+      echo $wval > $lkdata/wlan_rx
+      echo $wval > /sys/module/bcmdhd/parameters/wl_divide
+    else mc=0
+    fi
+    ;;
+  esac
+  [ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
+  ;;
 3)
         echo -n "Enter three values (red green blue) between 0-255 (default 255 255 255, enter to skip): "
-	mc=0
+  mc=0
         read RGB
-	if [ -n "$RGB" ]; then
-		echo "$RGB" > $lkdata/kcal
-		echo "$RGB" > /sys/devices/platform/kcal_ctrl.0/kcal
-		mc=1
-	fi
-	echo -n "Enter between 224-383 for saturation (default 255, enter to skip): "
+  if [ -n "$RGB" ]; then
+    echo "$RGB" > $lkdata/kcal
+    echo "$RGB" > /sys/devices/platform/kcal_ctrl.0/kcal
+    mc=1
+  fi
+  echo -n "Enter between 224-383 for saturation (default 255, enter to skip): "
         read SAT
-	if [ -n "$SAT" ]; then
-		echo "$SAT" > $lkdata/kcal_sat
-		echo "$SAT" > /sys/devices/platform/kcal_ctrl.0/kcal_sat
-		mc=1
-	fi
-	echo -n "Enter between 128-383 for contrast (default 255, enter to skip): "
+  if [ -n "$SAT" ]; then
+    echo "$SAT" > $lkdata/kcal_sat
+    echo "$SAT" > /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    mc=1
+  fi
+  echo -n "Enter between 128-383 for contrast (default 255, enter to skip): "
         read CONT
-	if [ -n "$CONT" ]; then
-		echo "$CONT" > $lkdata/kcal_cont
-		echo "$CONT" > /sys/devices/platform/kcal_ctrl.0/kcal_cont
-		mc=1
-	fi
-	echo -n "Enter between 0-1536 for hue (default 0, enter to skip): "
+  if [ -n "$CONT" ]; then
+    echo "$CONT" > $lkdata/kcal_cont
+    echo "$CONT" > /sys/devices/platform/kcal_ctrl.0/kcal_cont
+    mc=1
+  fi
+  echo -n "Enter between 0-1536 for hue (default 0, enter to skip): "
         read HUE
-	if [ -n "$HUE" ]; then
-		echo "$HUE" > $lkdata/kcal_hue
-		echo "$HUE" > /sys/devices/platform/kcal_ctrl.0/kcal_hue
-		mc=1
-	fi
-	echo -n "Enter between 128-383 for gamma (default 255, enter to skip): "
+  if [ -n "$HUE" ]; then
+    echo "$HUE" > $lkdata/kcal_hue
+    echo "$HUE" > /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    mc=1
+  fi
+  echo -n "Enter between 128-383 for gamma (default 255, enter to skip): "
         read GAMMA
-	if [ -n "$GAMMA" ]; then
-		echo "$GAMMA" > $lkdata/kcal_val
-		echo "$GAMMA" > /sys/devices/platform/kcal_ctrl.0/kcal_val
-		mc=1
-	fi
-	[ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
-	;;
+  if [ -n "$GAMMA" ]; then
+    echo "$GAMMA" > $lkdata/kcal_val
+    echo "$GAMMA" > /sys/devices/platform/kcal_ctrl.0/kcal_val
+    mc=1
+  fi
+  [ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
+  ;;
 
 4)
-	echo "interactiveX screen-off maxfreq: enter a number between 0 and 4 "
-	echo -n " (0:600mhz, 1:864mhz, 2:1.3ghz, 3:1.5ghz/default, 4:disable): "
-	read value
-	case $value in
-	  0) FREQ=600000;;
-	  1) FREQ=864000;;
-	  2) FREQ=1344000;;
-	  3) FREQ=1555200;;
-	  4) FREQ=1958400;;
-	  *) mc=0;;
-	esac
-	if [ $mc -eq 1 ]; then
-		[ $value -eq 4 ] && rm -f $lkdata/screen_off_maxfreq \
-			|| echo $FREQ > $lkdata/screen_off_maxfreq
-		echo $FREQ > /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq
-		[ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
-	fi
-	;;
+  echo "interactiveX screen-off maxfreq: enter a number between 0 and 4 "
+  echo -n " (0:600mhz, 1:864mhz, 2:1.3ghz, 3:1.5ghz/default, 4:disable): "
+  read value
+  case $value in
+    0) FREQ=600000;;
+    1) FREQ=864000;;
+    2) FREQ=1344000;;
+    3) FREQ=1555200;;
+    4) FREQ=1958400;;
+    *) mc=0;;
+  esac
+  if [ $mc -eq 1 ]; then
+    [ $value -eq 4 ] && rm -f $lkdata/screen_off_maxfreq \
+      || echo $FREQ > $lkdata/screen_off_maxfreq
+    echo $FREQ > /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq
+    [ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
+  fi
+  ;;
+
+5)
+  echo -n "power_efficient workqueue: enter 0 to disable, 1 to enable (default): "
+  read value
+  case $value in
+  0)
+    echo 0 > /sys/module/workqueue/parameters/power_efficient
+    echo 0 > $lkdata/power_efficient
+  ;;
+  1)
+    echo 1 > /sys/module/workqueue/parameters/power_efficient
+    echo 1 > $lkdata/power_efficient
+  ;;
+  *) mc=0;;
+  esac
+  [ $mc -eq 1 ] && echo && echo "Done! (also will persist at boot)"
+  ;;
 
 21)
-	echo
-	if [ -a /system/xbin/awk ]; then
-		echo "1st column: total time wakeup source has been active."
-		echo "2nd column: max time the source was continuously active."
-		echo "(The numbers are duration in seconds)"
-		echo "-----"
-		cat /sys/kernel/debug/wakeup_sources | grep -v wakeup_count \
-		  | awk '{ printf "%-10s%-8s %s\n",int($7/1000),int($8/1000),$1 }' \
-		  | sort -rn | head -10 2> /dev/null
-	else
-		echo "busybox required!"
-	fi
-	;;
+  echo
+  if [ -a /system/xbin/awk ]; then
+    echo "1st column: total time wakeup source has been active."
+    echo "2nd column: max time the source was continuously active."
+    echo "(The numbers are duration in seconds)"
+    echo "-----"
+    cat /sys/kernel/debug/wakeup_sources | grep -v wakeup_count \
+      | awk '{ printf "%-10s%-8s %s\n",int($7/1000),int($8/1000),$1 }' \
+      | sort -rn | head -10 2> /dev/null
+  else
+    echo "busybox required!"
+  fi
+  ;;
 22)
-	echo -n "Hit enter when ready - this will purge cache and hotboot the phone: "
-	read value
-	sync
-	echo 3 > /proc/sys/vm/drop_caches
-	sync
-	pkill zygote
-	;;
+  echo -n "Hit enter when ready - this will purge cache and hotboot the phone: "
+  read value
+  sync
+  echo 3 > /proc/sys/vm/drop_caches
+  sync
+  pkill zygote
+  ;;
 *)
-	exit
-	;;
+  exit
+  ;;
 esac
 [ $mc -eq 0 ] && echo && echo "No change made."
 echo

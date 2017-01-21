@@ -70,16 +70,17 @@ case $option in
   echo -n "wakelocks: enter 1 to 8 (1 = stock default, 4 = kernvatore default, higher = lower wake time) for wlan_rx: "
   read wval
   case $wval in
-    1)
+    4)
     rm -f $lkdata/wlan_rx
     echo $wval > /sys/module/bcmdhd/parameters/wl_divide
     ;;
-    [2-8])
+    [1-3]|[5-8])
     echo $wval > $lkdata/wlan_rx
     echo $wval > /sys/module/bcmdhd/parameters/wl_divide
     ;;
     *)
     if [ $wval -gt 8 ]; then
+      echo 'Hope you know what you are doing!'
       echo $wval > $lkdata/wlan_rx
       echo $wval > /sys/module/bcmdhd/parameters/wl_divide
     else mc=0
@@ -155,7 +156,6 @@ case $option in
   0)
     echo 0 > /sys/module/workqueue/parameters/power_efficient
     echo 0 > $lkdata/power_efficient
-    mc=1
   ;;
   1)
     echo 1 > /sys/module/workqueue/parameters/power_efficient

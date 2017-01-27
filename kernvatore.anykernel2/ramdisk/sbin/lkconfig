@@ -1,6 +1,7 @@
 #!/system/bin/sh
 
-[ ! ls /data/data ] && echo 'Must be superuser!' && exit
+detectsu=`ls /data/data`
+[ -z "$detectsu" ] && echo 'Must be superuser!' && exit
 
 lkdata="/data/data/leankernel"
 [ ! -d "$lkdata" ] && mkdir $lkdata

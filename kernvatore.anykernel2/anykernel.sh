@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # EDIFY properties
-kernel.string=Kernvatore v3.1 by vt0r @ xda-developers
+kernel.string=Kernvatore v3.2 by vt0r @ xda-developers
 do.devicecheck=1
 do.initd=0
 do.modules=0

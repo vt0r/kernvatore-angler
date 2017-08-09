@@ -4920,7 +4920,7 @@ static int __init kgsl_core_init(void)
 	init_kthread_worker(&kgsl_driver.worker);
 
 	kgsl_driver.worker_thread = kthread_run(kthread_worker_fn,
-		&kgsl_driver.worker, "kgsl_worker_thread");
+						&kgsl_driver.worker, "kgsl_worker_thread");
 
 	if (IS_ERR(kgsl_driver.worker_thread)) {
 		pr_err("unable to start kgsl thread\n");

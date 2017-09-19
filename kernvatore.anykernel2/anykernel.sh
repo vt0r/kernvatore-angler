@@ -31,6 +31,13 @@ remove_section init.angler.rc "# Load persistent dm-verity state" "verity_load_s
 remove_section init.angler.rc "# Setup zram options" "write /sys/block/zram0/max_comp_streams 4"
 remove_section init.angler.rc "# Update dm-verity state and set partition.*.verified properties" "verity_update_state"
 
+# fstab.angler
+patch_fstab fstab.angler /system ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
+patch_fstab fstab.angler /vendor ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
+### Uncomment the following line to disable encryption enforcement
+#patch_fstab fstab.angler /data ext4 flags "wait,check,forcefdeorfbe=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait,check,encryptable=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata";
+remove_line fstab.angler "/dev/block/zram0"
+
 # end ramdisk changes
 
 write_boot;

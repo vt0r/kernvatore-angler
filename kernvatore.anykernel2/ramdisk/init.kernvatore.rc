@@ -1,13 +1,7 @@
-service kernvatore-post-boot /sbin/kernvatore-post-boot.sh
-     class late_start
-     user root
-     disabled
-     oneshot
-
 on boot
      write /sys/block/mmcblk0/queue/scheduler fiops
      write /sys/block/mmcblk0/queue/read_ahead_kb 2048
      write /sys/module/bcmdhd/parameters/wl_divide 4
      write /sys/module/bcmdhd/parameters/wlctrl_divide 4
      write /proc/sys/vm/swappiness 0
-     start kernvatore-post-boot
+     exec u:r:su:s0 root root -- /sbin/kernvatore-post-boot.sh

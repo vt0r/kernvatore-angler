@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # EDIFY properties
-kernel.string=Kernvatore v3.7 by vt0r @ xda-developers
+kernel.string=Kernvatore v3.8 by vt0r @ xda-developers
 do.devicecheck=1
 do.initd=0
 do.modules=0
@@ -32,8 +32,8 @@ remove_section init.angler.rc "# Setup zram options" "write /sys/block/zram0/max
 remove_section init.angler.rc "# Update dm-verity state and set partition.*.verified properties" "verity_update_state"
 
 # fstab.angler
-insert_line fstab.angler "data           f2fs" after "data           ext4" "/dev/block/platform/soc.0/f9824900.sdhci/by-name/userdata     /data           f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr wait,formattable,encryptable=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata";
-insert_line fstab.angler "cache          f2fs" after "cache          ext4" "/dev/block/platform/soc.0/f9824900.sdhci/by-name/cache        /cache          f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr wait,check,formattable";
+#insert_line fstab.angler "data           f2fs" after "data           ext4" "/dev/block/platform/soc.0/f9824900.sdhci/by-name/userdata     /data           f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr wait,formattable,encryptable=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata";
+#insert_line fstab.angler "cache          f2fs" after "cache          ext4" "/dev/block/platform/soc.0/f9824900.sdhci/by-name/cache        /cache          f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr wait,check,formattable";
 patch_fstab fstab.angler /system ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
 patch_fstab fstab.angler /vendor ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
 ### Uncomment the following line to disable encryption enforcement

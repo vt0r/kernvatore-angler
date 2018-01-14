@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # EDIFY properties
-kernel.string=Kernvatore v3.9 by vt0r @ xda-developers
+kernel.string=Kernvatore v3.10 by vt0r @ xda-developers
 do.devicecheck=1
 do.initd=0
 do.modules=0
@@ -37,7 +37,7 @@ remove_section init.angler.rc "# Update dm-verity state and set partition.*.veri
 patch_fstab fstab.angler /system ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
 patch_fstab fstab.angler /vendor ext4 flags "wait,verify=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait";
 ### Uncomment the following line to disable encryption enforcement
-#patch_fstab fstab.angler /data ext4 flags "wait,check,forcefdeorfbe=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait,check,encryptable=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata";
+patch_fstab fstab.angler /data ext4 flags "wait,check,forcefdeorfbe=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata" "wait,check,encryptable=/dev/block/platform/soc.0/f9824900.sdhci/by-name/metadata";
 remove_line fstab.angler "/dev/block/zram0"
 
 # end ramdisk changes

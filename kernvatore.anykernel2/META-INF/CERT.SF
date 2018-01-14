@@ -1,0 +1,58 @@
+Signature-Version: 1.0
+SHA1-Digest-Manifest: HLUT5n8d+usFdz6GNiypamdRXKo=
+Created-By: 1.0 (Android SignApk)
+
+Name: META-INF/com/google/android/updater-script
+SHA1-Digest: Br6xNsbYLFIighT+FGsY/cB14YM=
+
+Name: anykernel.sh
+SHA1-Digest: Sam3ciO2Tp9d0eR544IqmlQaWL0=
+
+Name: META-INF/com/google/android/update-binary
+SHA1-Digest: wvcU4XTNzUSyE2/G4FEK2+gAtWw=
+
+Name: tools/avb/verity.x509.pem
+SHA1-Digest: kjPAO6rmIrk1yxJ6vZRrxq//Kmw=
+
+Name: zImage
+SHA1-Digest: w7uKfTZKRcCPdymdK+9Sp87jFg8=
+
+Name: ramdisk/init.fk.rc
+SHA1-Digest: mUk2bcXpyOpiZBbiTJ4hNX4O33I=
+
+Name: tools/busybox
+SHA1-Digest: OlM6XYvonzF6g1RG0Y0A7D1ukXs=
+
+Name: ramdisk/init.special_power.sh
+SHA1-Digest: 2GH7aH/iUU+3lz8kQfaQZPI4vAw=
+
+Name: tools/BootSignature_Android.jar
+SHA1-Digest: idrPyQFahiRmzmh4U1OnGKcrdlU=
+
+Name: tools/avb/verity.pk8
+SHA1-Digest: DlffRt8VQZld6PmjdGz+y+vKkEk=
+
+Name: ramdisk/init.performance_profiles.rc
+SHA1-Digest: JqLB8r08BGzgRswoz0aTwVLVdFk=
+
+Name: README.md
+SHA1-Digest: 94wzeRX4ZvmVUzCsvqEZDBqF9Dk=
+
+Name: tools/mkbootimg
+SHA1-Digest: mpL41++SdKVpI+OvZqrmHoSXrUY=
+
+Name: tools/unpackbootimg
+SHA1-Digest: b9LRR+cg97GUpPe9B6RrIGrDfA4=
+
+Name: ramdisk/init.supolicy.sh
+SHA1-Digest: OEtB8X6O+TnxG2xLCfLmlXeHC8M=
+
+Name: tools/ak2-core.sh
+SHA1-Digest: MFmBsFYD2wxevR1I49slaBokxig=
+
+Name: tools/xz
+SHA1-Digest: Azod2/PYr6PpsV5t6fcY031ws5E=
+
+Name: tools/lz4
+SHA1-Digest: UOdURvr7YndI4jTBndBsiJtsVM0=
+
